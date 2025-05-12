@@ -1,0 +1,17 @@
+//Create the LACP zone with the two multilayer switches
+int range gig1/0/8-10
+channel-group 1 mode active/passive (decide) 
+interface Port-channel 1
+switchport mode acces trunk
+
+
+//We asign the interfaces connected to the firewall routing 
+int gig1/0/1
+no shut
+no switchport
+ip add 10.2.2.1 255.255.255.252
+
+int gig1/0/2
+no shut
+no switchport
+ip add 10.2.2.5 255.255.255.252
