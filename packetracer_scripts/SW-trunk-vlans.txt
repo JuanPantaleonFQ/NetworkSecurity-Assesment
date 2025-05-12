@@ -42,3 +42,5 @@ do wr
 int range fa0/3-24
 spanning-tree portfast 
 spanning-tree bpduguard enable
+exit
+do wr
