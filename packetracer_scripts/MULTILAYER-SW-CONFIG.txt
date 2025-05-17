@@ -16,4 +16,37 @@ no shut
 no switchport
 ip add 10.2.2.5 255.255.255.252
 
-//changes
+//Switch 1 only: we configure the intervlan routing for the 2 vlans that will
+//be active in this router(multilayer switch)
+//Configuring vlan MGT vlan 10
+config ter
+interface vlan 10
+no shut
+ip add 192.168.10.3 255.255.255.0
+
+//Configuring vlan 20 LAN
+//create the group 10 and asign that ip gateaway for the devices in vlan 10
+standby 10 ip 192.168.10.1 
+//enable DHCP relays so when a client from the vlan sends a discover broadcast signal
+//the switch will forward it as a unicast to the dhcp server in that ip since the DHCP server
+is in another vlan.
+ip helper-address 10.11.11.38
+
+//Configuring WLAN 50 
+interface vlan 50
+ no shutdown
+ ip address 10.20.0.2 255.255.0.0
+ standby 50 ip 10.20.0.1
+ ip helper-address 10.11.11.38
+
+//Configuring Inside servers vlan 90 
+//this time we dont write helper-address because the server will
+//asign them static ip addresses.
+interface vlan 90
+ no shutdown
+ ip address 10.11.11.34 255.255.255.224
+ standby 90 ip 10.11.11.33
+
+ 
+
+
